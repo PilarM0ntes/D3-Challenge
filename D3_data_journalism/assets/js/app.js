@@ -29,14 +29,41 @@ let chartGroup = svg.append("g")
 // Load the data frm data.csv
 d3.csv("./assets/data/data.csv").then(function(census_data){
     console.log(census_data);
-    let healthcare = census_data.map(item => item.healthcare);
-    let poverty = census_data.map(item => item.poverty);
-    console.log(healthcare);
-    console.log(poverty);
-    // console.log(d3.max(census_data["healthcare"]));
-    // Scales
-    // let xScale = d3.scaleLinear()
-    //     .domain([])
+
+    let selectedData = {
+        healthcare: census_data.map(item => +item.healthcare),
+        poverty: census_data.map(item => +item.poverty)
+    };
+
+    console.log(selectedData);
+    
+    // Create Scales
+    let xScale = d3.scaleLinear()
+        .domain([0, d3.max(selectedData.poverty)])
+        .range([0, chartWidth]);
+    let yScale = d3.scaleLinear()
+        .domain([0,d3.max(selectedData.healthcare)])
+        .range([chartHeight,0]);
+
+    // Create axes
+    let xAxis = d3.axisBottom(xScale);
+    let yAxis = d3.axisLeft(yScale);
+
+    // Append two SVG group elements to the chart
+    // & create the bottom and left axis
+
+    chartGroup.append("g")
+        .call(yAxis);
+    chartGroup.append("g")
+        .attr("transform", `translate(0, ${chartHeight})`)
+        .call(xAxis);
+    
+    // chartGroup.selectAll("dot")
+    //     .data(census_data)
+    //     .enter()
+    //     .append("circle")
+    //         .attr("cx", d => xScale)
+    
 
 
 });
