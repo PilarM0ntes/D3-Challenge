@@ -6,7 +6,7 @@ let svgHeight = 660;
 let chartMargin = {
   top: 30,
   right: 30,
-  bottom: 30,
+  bottom: 60,
   left: 30
 };
 
@@ -28,11 +28,10 @@ let chartGroup = svg.append("g")
 
 // Load the data frm data.csv
 d3.csv("./assets/data/data.csv").then(function(census_data){
-    console.log(census_data);
 
     let selectedData = {
-        healthcare: census_data.map(item => +item.healthcare),
-        poverty: census_data.map(item => +item.poverty)
+        poverty: census_data.map(item => +item.poverty),
+        healthcare: census_data.map(item => +item.healthcare)    
     };
 
     console.log(selectedData);
@@ -58,11 +57,15 @@ d3.csv("./assets/data/data.csv").then(function(census_data){
         .attr("transform", `translate(0, ${chartHeight})`)
         .call(xAxis);
     
-    // chartGroup.selectAll("dot")
-    //     .data(census_data)
-    //     .enter()
-    //     .append("circle")
-    //         .attr("cx", d => xScale)
+    chartGroup.selectAll("circle")
+        .data(selectedData)
+        .enter()
+        .append("circle")
+        // .attr("class", "stateCircle")
+        .attr("cx", d => xScale(d.poverty))
+        .attr("cy", d => yScale(d.healthcare))
+        .attr("r", "5")
+        .style("fill", "#406278")
     
 
 
