@@ -35,6 +35,11 @@
   stroke: #e3e3e3;
 }
 
+.axisText{
+  font-weight: bold;
+  font-size: 20px;
+}
+
 .chart {
   display: block;
   margin: 0;
